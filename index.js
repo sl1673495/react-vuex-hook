@@ -74,9 +74,7 @@ export const initStore = (options) => {
 // 加入loadingMap
 // 通过action的key可以读取到action是否正在执行
 function mixinState(state) {
-  const loadingMap = Object.create({
-    any() {},
-  });
+  const loadingMap = Object.create(null);
   Object.assign(state, { loadingMap });
 }
 
@@ -152,12 +150,13 @@ function initDispatchAction(dispatch, actions, state, getters) {
 }
 
 function enhanceLoadingMap(loadingMap) {
-  const proto = Object.getPrototypeOf(loadingMap);
-  Object.assign(proto, {
-    any(keys) {
-      return keys.some(key => !!loadingMap[key]);
-    },
-  });
+  if (loadingMap) {
+    Object.assign(loadingMap, {
+      any: (keys) => {
+        return Array.isArray(keys) ? keys.some(key => !!loadingMap[key]) : false;
+      },
+    });
+  }
 }
 
 function typeError(type) {
