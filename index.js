@@ -1,5 +1,6 @@
 
 import React, { useReducer, useMemo } from 'react';
+import hoistStatics from 'hoist-non-react-statics'
 import propTypes from 'prop-types';
 
 /**
@@ -61,11 +62,15 @@ export const initStore = (options) => {
   };
 
   const connect = (Component) => {
-    return (props) => (
+    const WrapWithProvider = props => (
       <Provider>
         <Component {...props} />
       </Provider>
-    );
+    )
+    
+    // 加上displayName
+    // 拷贝静态属性
+    return argumentContainer(WrapWithProvider, Component)
   };
 
   return { connect, Context };
@@ -161,4 +166,17 @@ function enhanceLoadingMap(loadingMap) {
 
 function typeError(type) {
   console.error(`error action type:${type}`);
+}
+
+
+function getDisplayName(WrappedComponent) {
+  return (
+    WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent'
+  )
+}
+
+function argumentContainer(Container, WrappedComponent) {
+  Container.displayName = `Store(${getDisplayName(WrappedComponent)})`
+  Container.WrappedComponent = WrappedComponent
+  return hoistStatics(Container, WrappedComponent)
 }
