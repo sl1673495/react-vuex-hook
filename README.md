@@ -2,6 +2,37 @@
 
 react-hook 配合 context 和 useReducer 封装的一个用于小型模块的 store，提供类似 vuex 的语法。
 
+## 安装
+```
+npm install react-hook-store
+```
+## 更新 2.0
+
+1. 新增测试用例，整体覆盖率 90%以上。
+
+2. `mutation` 的函数参数顺序和 Vuex 保持一致
+
+```js
+  mutations: {
+    // 浅拷贝state
+    add(state, payload) {
+      return Object.assign({}, state, { count: state.count + 1 })
+    },
+  },
+```
+
+3. `actions` 的函数参数和vuex保持一致
+```js
+  actions: {
+    async asyncAdd({ dispatch, state, getters }, payload) {
+      await wait(100)
+      dispatch({ type: 'add' })
+      // 返回的值会被包裹的promise resolve
+      return true
+    },
+  },
+```
+
 ### 适用场景
 
 比较适用于单个比较复杂的小模块，个人认为这也是 react 官方推荐 useReducer 和 context 配合使用的场景。
@@ -21,13 +52,13 @@ const store = {
   // 同步操作 必须返回state的拷贝值
   mutations: {
     // 浅拷贝state
-    add(payload, state) {
+    add(state, payload) {
       return Object.assign({}, state, { count: state.count + 1 })
     },
   },
   // 异步操作，拥有dispatch的执行权
   actions: {
-    async asyncAdd(payload, { dispatch, state, getters }) {
+    async asyncAdd({ dispatch, state, getters }, payload) {
       await wait(1000)
       dispatch({ type: 'add' })
       // 返回的值会被包裹的promise resolve
