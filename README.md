@@ -1,10 +1,10 @@
-# react-hook-store
+# reax-hook
 
-react-hook 配合 context 和 useReducer 封装的一个用于小型模块的 store，提供类似 vuex 的语法。
+:sunny:reax-hook是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
 
 ## 安装
 ```
-npm install react-hook-store
+npm install reax-hook -S
 ```
 ## 更新 2.0
 
@@ -42,7 +42,7 @@ npm install react-hook-store
 
 ```javascript
 // store.js
-import initStore from 'react-hook-store'
+import initStore from 'reax-hook'
 
 const store = {
   // 初始状态
