@@ -42,7 +42,7 @@ npm install reax-hook -S
 
 ```javascript
 // store.js
-import initStore from 'react-hook-store'
+import initStore from 'reax-hook'
 
 const store = {
   // 初始状态
