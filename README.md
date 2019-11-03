@@ -1,10 +1,10 @@
-# react-hook-store
+# reax-hook
 
 react-hook 配合 context 和 useReducer 封装的一个用于小型模块的 store，提供类似 vuex 的语法。
 
 ## 安装
 ```
-npm install react-hook-store
+npm install reax-hook -S
 ```
 ## 更新 2.0
 
