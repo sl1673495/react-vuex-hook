@@ -15,13 +15,15 @@ module.exports = {
         include: [resolve('src')],
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options: {
-          "presets": ["@babel/preset-env", "@babel/preset-react"],
-        }
       },
     ],
   },
   externals: {
-    react: 'React'
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react',
+    },
   }
 }

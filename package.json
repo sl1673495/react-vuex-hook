@@ -1,17 +1,15 @@
 {
   "name": "reax-hook",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "react-hook 配合 context 和 useReducer 封装的一个用于小型模块的 store，提供类似 vuex 的语法。",
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "jest",
     "cov": "jest --coverage",
-    "build": "webpack --display-modules",
-    "prebuild": "npm test"
+    "build": "webpack --display-modules"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test"
     }
   },
   "repository": {
