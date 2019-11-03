@@ -3,7 +3,12 @@ const { resolve } = path
 module.exports = {
   mode: 'production',
   entry: {
-    app: resolve('./src/index.jsx'),
+    index: resolve('./src'),
+  },
+  output: {
+    path: resolve('./dist'),
+    filename: 'index.js',
+    libraryTarget: 'umd',
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -11,7 +16,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)/,
+        test: /\.(js|jsx)/,
         include: [resolve('src')],
         exclude: /node_modules/,
         loader: 'babel-loader',
