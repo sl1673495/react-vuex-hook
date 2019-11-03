@@ -1,6 +1,6 @@
 # reax-hook
 
-react-hook 配合 context 和 useReducer 封装的一个用于小型模块的 store，提供类似 vuex 的语法。
+:sunny:reax-hook是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
 
 ## 安装
 ```
