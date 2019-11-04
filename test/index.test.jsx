@@ -21,7 +21,7 @@ const { connect, useStore } = initStore({
   },
   actions: {
     async asyncAdd({ dispatch, state, getters }, payload) {
-      await wait(100)
+      await wait(0)
       dispatch({ type: 'add' })
       // 返回的值会被包裹的promise resolve
       return true
@@ -81,16 +81,16 @@ describe('正常使用', () => {
     })
   })
 
-  test('异步actions派发前后，对应的loading状态表现正常', async () => {
-    const { result } = renderHook(() => useStore(), { wrapper: Connected })
+  test('异步actions派发前后，对应的loading状态表现正常，并且测试any的两种参数格式', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useStore(), { wrapper: Connected })
     const { dispatch } = result.current
     await act(async () => {
       dispatch.action({
         type: 'asyncAdd',
       })
-      await wait(0)
-      expect(result.current.state.loadingMap.any(['asyncAdd'])).toBeTruthy()
-      await wait(150)
+      await waitForNextUpdate()
+      expect(result.current.state.loadingMap.any('asyncAdd')).toBeTruthy()
+      await waitForNextUpdate()
       expect(result.current.state.loadingMap.any(['asyncAdd'])).toBeFalsy()
     })
   })
@@ -115,5 +115,11 @@ describe('正常使用', () => {
     })
     const { getByTestId } = render(<EmptyConnect />)
     expect(getByTestId('empty').innerHTML).toBe('empty')
+  })
+
+  test('无意义的调用loadingMap.any不会报错', async () => {
+    const { result } = renderHook(() => useStore(), { wrapper: Connected })
+    const { state } = result.current
+    expect(result.current.state.loadingMap.any(['ERROR_TYPE'])).toBe(false)
   })
 })

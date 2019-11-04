@@ -21,6 +21,8 @@ export default options => {
   const reducer = (state, action) => {
     const { type, payload } = action
     const mutation = mutations[type]
+    // 用于开发环境时提示拼写错误，可以不计入测试覆盖率
+    /* istanbul ignore else */
     if (typeof mutation === 'function') {
       return mutation(state, payload)
     } else {
@@ -160,7 +162,8 @@ function initDispatchAction(dispatch, actions, state, getters) {
 function enhanceLoadingMap(loadingMap) {
   Object.assign(loadingMap, {
     any: keys => {
-      return Array.isArray(keys) ? keys.some(key => !!loadingMap[key]) : false
+      keys = Array.isArray(keys) ? keys : [keys]
+      return keys.some(key => !!loadingMap[key])
     },
   })
 }
