@@ -6,6 +6,14 @@
 ```
 npm install reax-hook -S
 ```
+## 更新 3.0
+
+1. 全面使用TypeScript重构
+
+2. 脚手架工具使用umi团队的`father`
+
+3. 基于docz的文档
+
 ## 更新 2.0
 
 1. 新增测试用例，测试覆盖率达到100%
