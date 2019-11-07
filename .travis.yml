@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+node_js:
+  - 10
+branches:
+  only:
+  - master
+script:
+  - npm run test
+  - npm run build
+after_success:
+- npm run coveralls

@@ -1,0 +1,36 @@
+{
+  "name": "reax-hook",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "father build",
+    "doc:dev": "father doc dev",
+    "doc:build": "father doc build",
+    "doc:deploy": "father doc deploy"
+  },
+  "dependencies": {
+    "antd": "^3.25.0",
+    "hoist-non-react-statics": "^3.3.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-typescript": "^7.7.2",
+    "@testing-library/react": "^9.3.1",
+    "@testing-library/react-hooks": "^3.1.1",
+    "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/jest": "^24.0.21",
+    "coveralls": "^3.0.7",
+    "jest": "^24.9.0",
+    "react-test-renderer": "^16.11.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

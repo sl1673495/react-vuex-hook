@@ -1,0 +1,11 @@
+node_modules
+lerna-debug.log
+Pampasfile.js
+.vscode
+mock
+public
+.cache-loader
+.eslintcache
+.DS_Store
+coverage
+.docz
