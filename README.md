@@ -6,6 +6,11 @@
 ```
 npm install reax-hook -S
 ```
+
+## 文档
+
+https://sl1673495.github.io/reax-hook/
+
 ## 更新 3.0
 
 1. 全面使用TypeScript重构
