@@ -3,7 +3,8 @@ import { cleanup, render, fireEvent } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
 import initStore from '../src'
 
-const wait = time => new Promise(resolve => setTimeout(resolve, time))
+const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time))
+
 const { connect, useStore } = initStore({
   initState: {
     count: 1,
@@ -22,8 +23,6 @@ const { connect, useStore } = initStore({
   actions: {
     async asyncAdd({ dispatch, state, getters }, payload) {
       await wait(0)
-      // TODO
-      getters.countPlusOne
       dispatch({ type: 'add' })
       // 返回的值会被包裹的promise resolve
       return true
@@ -40,7 +39,7 @@ function Comp({ children }) {
   return (
     <div>
       <span data-testid="count">{state.count}</span>
-      <span data-testid="countPlusOne">{getters}</span>
+      <span data-testid="countPlusOne">{getters.countPlusOne}</span>
       <button data-testid="add" onClick={onAdd}></button>
       <button data-testid="asyncAdd" onClick={asyncAdd}></button>
       <button data-testid="error" onClick={onErrorType}></button>

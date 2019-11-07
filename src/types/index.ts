@@ -18,23 +18,23 @@ export type ILoadingMap = {
   any: (keys: string | string[]) => boolean
 }
 
-interface IActionContext<State, Getters> {
+interface IActionContext<State, GettersOption> {
   state: State
-  getters: Getters
+  getters: IGetters<GettersOption>
   dispatch: IDispatch
 }
 
-export interface IActionsOption<State, Getters> {
+export interface IActionsOption<State, GettersOption> {
   [key: string]: (
-    context: IActionContext<State, Getters>,
+    context: IActionContext<State, GettersOption>,
     payload: any
   ) => Promise<any>
 }
 
-export interface IOptions<State, GettersOption> {
+export interface IOptions<State> {
   initState: State
   mutations: IMutationsOption<State>
-  getters: GettersOption
+  getters: IGettersOption<State> 
   actions: IActionsOption<State, IGettersOption<State>>
 }
 
@@ -42,9 +42,9 @@ export interface IConnect {
   (Component: React.FC): React.FC
 }
 
-export interface ICreated<State, GettersOption> {
+export interface ICreated<State> {
   connect: IConnect
-  useStore: () => IContext<IState<State>, GettersOption>
+  useStore: () => IContext<IState<State>>
 }
 
 export interface IDispatchArgs {
@@ -60,8 +60,8 @@ export type IGetters<GettersOption> = {
   [K in keyof GettersOption]: any
 }
 
-export interface IContext<State, GettersOption> {
+export interface IContext<State> {
   dispatch: IDispatch
   state: IState<State>
-  getters: IGetters<GettersOption>
+  getters: IGetters<IGettersOption<State>>
 }

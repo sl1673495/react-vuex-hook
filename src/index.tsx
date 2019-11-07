@@ -11,19 +11,19 @@ import {
   IDispatchArgs,
   IDispatch,
   IContext,
+  IGettersOption,
 } from './types'
 
 const { useReducer, useContext, useMemo } = React
-
 // reax: 创建一个小型的store
-export default <State extends {}, GettersOption extends {}>(
-  options?: IOptions<State, GettersOption>
-): ICreated<State, GettersOption> => {
+export default function initStore<State extends {}> (
+  options?: IOptions<State>
+) {
   const {
     initState = {} as State,
     mutations = {},
     actions: rawActions = {},
-    getters: rawGetters = {} as GettersOption,
+    getters: rawGetters = {},
   } = options || {}
 
   const stateWithLoadingMap = mixinState<State>(initState)
@@ -39,18 +39,17 @@ export default <State extends {}, GettersOption extends {}>(
     }
     return mutation(state, payload)
   }
-  const Context = React.createContext<IContext<IState<State>, GettersOption>>(null)
-
+  const Context = React.createContext<IContext<IState<State>>>(null)
   const Provider = (props: any) => {
     const { children } = props
     const [state, dispatch] = useReducer(reducer, stateWithLoadingMap)
     // 计算一把computed
-    const getters = useMemo(() => initGetter<State, GettersOption>(rawGetters, state), [state])
+    const computedGetters = useMemo(() => initGetter<State>(rawGetters, state), [state])
     // 让actions执行前后改变loading
     const actions = useMemo(() => initActions(rawActions, dispatch), [])
     const dispatchAction = useMemo(
-      () => initDispatchAction(dispatch, actions, state, getters),
-      [actions, getters, state]
+      () => initDispatchAction(dispatch, actions, state, computedGetters),
+      [actions, computedGetters, state]
     )
     // dispatchAction没法做到引用保持不变 所以挂到dispatch上
     // 这样用户使用useEffect把dispatch作为依赖 就不会造成无限更新
@@ -66,7 +65,7 @@ export default <State extends {}, GettersOption extends {}>(
         value={{
           state: reducerState,
           dispatch: withDispatchAction,
-          getters,
+          getters: computedGetters,
         }}
       >
         {children}
@@ -122,7 +121,7 @@ function mixinMutations(mutations) {
 }
 
 // 通过最新的state把getter计算出来
-function initGetter<State, GettersOption>(rawGetters: GettersOption, state: State): IGetters<GettersOption> {
+function initGetter<State>(rawGetters: IGettersOption<State>, state: State): IGetters<IGettersOption<State>> {
   const getters = {}
   const rawGetterKeys = Object.keys(rawGetters)
   rawGetterKeys.forEach(rawGetterKey => {
@@ -130,7 +129,7 @@ function initGetter<State, GettersOption>(rawGetters: GettersOption, state: Stat
     const result = rawGetter(state)
     getters[rawGetterKey] = result
   })
-  return getters as IGetters<GettersOption>
+  return getters as IGetters<IGettersOption<State>>
 }
 
 // 劫持原有的action方法 在action执行前后更改loading状态
