@@ -13,11 +13,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "antd": "^3.25.0",
     "hoist-non-react-statics": "^3.3.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
@@ -30,7 +27,14 @@
     "@types/jest": "^24.0.21",
     "coveralls": "^3.0.7",
     "jest": "^24.9.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "antd": "^3.25.0",
     "react-test-renderer": "^16.11.0"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
   "keywords": [],
   "author": "",
