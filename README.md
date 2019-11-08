@@ -1,6 +1,7 @@
-[![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
 
-# reax-hook
+# reax-hook  
+
+[![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
 
 :sunny:reax-hook是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
 
