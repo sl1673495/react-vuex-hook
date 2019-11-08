@@ -9,7 +9,8 @@
     "build": "father build",
     "doc:dev": "father doc dev",
     "doc:build": "father doc build",
-    "doc:deploy": "father doc deploy"
+    "doc:deploy": "father doc deploy",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "antd": "^3.25.0",
