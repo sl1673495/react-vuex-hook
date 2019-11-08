@@ -39,12 +39,7 @@ export interface IOptions<State> {
 }
 
 export interface IConnect {
-  (Component: React.FC): React.FC
-}
-
-export interface ICreated<State> {
-  connect: IConnect
-  useStore: () => IContext<IState<State>>
+  (Component: React.ComponentType<any>): React.FC
 }
 
 export interface IDispatchArgs {

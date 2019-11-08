@@ -7,7 +7,6 @@ import {
   ILoadingMap,
   IOptions,
   IConnect,
-  ICreated,
   IDispatchArgs,
   IDispatch,
   IContext,
