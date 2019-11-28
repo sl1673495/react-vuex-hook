@@ -3,7 +3,7 @@ import initStore from "../src";
 
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
-const store = {
+export const { connect, useStore } = initStore({
   // 初始状态
   initState: {
     count: 0
@@ -31,6 +31,4 @@ const store = {
       return state.count + 1;
     }
   }
-};
-
-export const { connect, useStore } = initStore(store);
+});
