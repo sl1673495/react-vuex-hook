@@ -10,7 +10,6 @@ import {
   IDispatchArgs,
   IDispatch,
   IContext,
-  IGettersOption,
   IMutationsValue,
 } from './types';
 

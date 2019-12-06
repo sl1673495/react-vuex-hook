@@ -4,10 +4,6 @@ export interface IMutationsValue<State> {
   (state: State, payload: any): State;
 }
 
-export interface IGettersOption<State> {
-  [key: string]: IGettersValue<State>;
-}
-
 export interface IGettersValue<State> {
   (state: State): any;
 }
