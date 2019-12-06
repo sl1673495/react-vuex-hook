@@ -121,6 +121,6 @@ describe('正常使用', () => {
 
   test('无意义的调用loadingMap.any不会报错', async () => {
     const { result } = renderHook(() => useStore(), { wrapper: Connected });
-    expect(result.current.state.loadingMap.any(['ERROR_TYPE'])).toBe(false);
+    expect(result.current.state.loadingMap.any(['ERROR_TYPE'] as any)).toBe(false);
   });
 });

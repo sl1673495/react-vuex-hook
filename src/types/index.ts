@@ -12,17 +12,20 @@ export interface IGettersValue<State> {
   (state: State): any;
 }
 
-export type IState<State> = State & {
-  loadingMap: ILoadingMap;
+export type IState<State, ActionsKey extends string> = State & {
+  loadingMap: ILoadingMap<ActionsKey>;
 };
 
-export type ILoadingMap = {
-  [key: string]: boolean;
-} & {
-  any: (keys: string | string[]) => boolean;
+export type ILoadingMap<ActionsKey extends string> = Record<ActionsKey, boolean> & {
+  any: (keys: ActionsKey | ActionsKey[]) => boolean;
 };
 
-interface IActionContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
+interface IActionContext<
+  State,
+  MutationsKey,
+  GettersKey extends string,
+  ActionsKey extends string
+> {
   state: State;
   getters: Record<GettersKey, IGettersValue<State>>;
   dispatch: IDispatch<MutationsKey, ActionsKey>;
@@ -35,7 +38,10 @@ export type IActionsOption<
   ActionsKey extends string
 > = Record<
   ActionsKey,
-  (context: IActionContext<State, MutationsKey, GettersKey, ActionsKey>, payload: any) => Promise<any>
+  (
+    context: IActionContext<State, MutationsKey, GettersKey, ActionsKey>,
+    payload: any,
+  ) => Promise<any>
 >;
 
 export interface IOptions<
@@ -70,8 +76,13 @@ export type IDispatch<MutationsKey, ActionsKey> = React.Dispatch<IDispatchArgs<M
 
 export type IGetters<State, GettersKey extends string> = Record<GettersKey, IGettersValue<State>>;
 
-export interface IContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
+export interface IContext<
+  State,
+  MutationsKey,
+  GettersKey extends string,
+  ActionsKey extends string
+> {
   dispatch: IDispatch<MutationsKey, ActionsKey>;
-  state: IState<State>;
+  state: IState<State, ActionsKey>;
   getters: IGetters<State, GettersKey>;
 }

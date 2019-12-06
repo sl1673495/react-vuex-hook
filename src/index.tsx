@@ -29,7 +29,7 @@ export default function initStore<
     getters: rawGetters = {} as IGetters<State, GettersKey>,
   } = options || {};
 
-  const stateWithLoadingMap = mixinState<State>(initState);
+  const stateWithLoadingMap = mixinState<State, ActionsKey>(initState);
   mixinMutations(mutations);
 
   const reducer = (state: State, action: IDispatchArgs<MutationsKey>) => {
@@ -42,7 +42,7 @@ export default function initStore<
     }
     return mutation(state, payload);
   };
-  const Context = React.createContext<IContext<IState<State>, MutationsKey, GettersKey, ActionsKey>>(null);
+  const Context = React.createContext<IContext<IState<State, ActionsKey>, MutationsKey, GettersKey, ActionsKey>>(null);
   const Provider = (props: any) => {
     const { children } = props;
     const [state, dispatch] = useReducer(reducer, stateWithLoadingMap);
@@ -62,9 +62,9 @@ export default function initStore<
     withDispatchAction.action = dispatchAction;
 
     // 重命名state 用于强制推断类型
-    const reducerState: IState<State> = state as any;
+    const reducerState: IState<State, ActionsKey> = state as any;
     // 给loadingMap加上一些api
-    enhanceLoadingMap(reducerState.loadingMap);
+    enhanceLoadingMap<ActionsKey>(reducerState.loadingMap);
     return (
       <Context.Provider
         value={{
@@ -100,7 +100,7 @@ export default function initStore<
 
 // 加入loadingMap
 // 通过action的key可以读取到action是否正在执行
-function mixinState<State>(state: State): IState<State> {
+function mixinState<State, ActionsKey extends string>(state: State): IState<State, ActionsKey> {
   const loadingMap = Object.create(null);
   return Object.assign(state, { loadingMap });
 }
@@ -177,7 +177,7 @@ function initDispatchAction(dispatch, actions, state, getters) {
     });
 }
 
-function enhanceLoadingMap(loadingMap: ILoadingMap) {
+function enhanceLoadingMap<ActionsKey extends string>(loadingMap: ILoadingMap<ActionsKey>) {
   loadingMap.any = keys => {
     keys = Array.isArray(keys) ? keys : [keys];
     return keys.some(key => !!loadingMap[key]);
