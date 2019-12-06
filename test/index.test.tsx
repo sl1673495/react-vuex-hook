@@ -33,7 +33,7 @@ const { connect, useStore } = initStore({
 function Comp({ children }) {
   const { state, getters, dispatch } = useStore()
   const onAdd = () => dispatch({ type: 'add' })
-  const onErrorType = () => dispatch({ type: 'ERROR_TYPE' })
+  const onErrorType = () => dispatch({ type: 'ERROR_TYPE' } as any)
   // 异步的add
   const asyncAdd = () => dispatch.action({ type: 'asyncAdd' })
   return (
