@@ -12,6 +12,12 @@ npm install reax-hook -S
 [![Build Status](https://travis-ci.org/sl1673495/reax-hook.svg?branch=master)](https://travis-ci.org/sl1673495/reax-hook) 
 [![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
 
+
+## 为什么用它
+1. 带给你Vuex类似的语法。
+2. 完善的TypeScript类型推导。
+3. 测试覆盖率100%
+
 ## 文档
 
 https://sl1673495.github.io/reax-hook/
