@@ -62,7 +62,7 @@ https://sl1673495.github.io/reax-hook/
 // store.js
 import initStore from 'reax-hook'
 
-const store = {
+export const { connect, useStore } = initStore({
   // 初始状态
   initState: {
     count: 0,
@@ -90,9 +90,11 @@ const store = {
       return state.count + 1
     },
   },
-}
+})
 
-export const { connect, useStore } = initStore(store)
+
+// 注意这里不要提前声明好配置对象然后传递给initStore
+// 否则由于ts的限制会失去类型推断
 ```
 
 ### 在页面引用

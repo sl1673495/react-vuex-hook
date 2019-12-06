@@ -22,43 +22,56 @@ export type ILoadingMap = {
   any: (keys: string | string[]) => boolean;
 };
 
-interface IActionContext<State, MutationKeys, GettersKey extends string> {
+interface IActionContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
   state: State;
   getters: Record<GettersKey, IGettersValue<State>>;
-  dispatch: IDispatch<MutationKeys>;
+  dispatch: IDispatch<MutationsKey, ActionsKey>;
 }
 
-export interface IActionsOption<State, MutationKeys extends string, GettersKey extends string> {
-  [key: string]: (
-    context: IActionContext<State, MutationKeys, GettersKey>,
-    payload: any,
-  ) => Promise<any>;
-}
+export type IActionsOption<
+  State,
+  MutationsKey extends string,
+  GettersKey extends string,
+  ActionsKey extends string
+> = Record<
+  ActionsKey,
+  (context: IActionContext<State, MutationsKey, GettersKey, ActionsKey>, payload: any) => Promise<any>
+>;
 
-export interface IOptions<State, MutationKeys extends string, GettersKey extends string> {
+export interface IOptions<
+  State,
+  MutationsKey extends string,
+  GettersKey extends string,
+  ActionsKey extends string
+> {
   initState: State;
-  mutations: Record<MutationKeys, IMutationsValue<State>>;
+  mutations: Record<MutationsKey, IMutationsValue<State>>;
   getters: IGetters<State, GettersKey>;
-  actions: IActionsOption<State, MutationKeys, GettersKey>;
+  actions: IActionsOption<State, MutationsKey, GettersKey, ActionsKey>;
 }
 
 export interface IConnect {
   (Component: React.ComponentType<any>): React.FC;
 }
 
-export interface IDispatchArgs<MutationKeys> {
-  type: MutationKeys;
+export interface IDispatchArgs<MutationsKey> {
+  type: MutationsKey;
   payload?: any;
 }
 
-export type IDispatch<MutationKeys> = React.Dispatch<IDispatchArgs<MutationKeys>> & {
-  action: (args: IDispatchArgs<any>) => Promise<any>;
+export interface IDispatchActionArgs<ActionsKey> {
+  type: ActionsKey;
+  payload?: any;
+}
+
+export type IDispatch<MutationsKey, ActionsKey> = React.Dispatch<IDispatchArgs<MutationsKey>> & {
+  action: (args: IDispatchActionArgs<ActionsKey>) => Promise<any>;
 };
 
-export type IGetters<State, GettersKey extends string> = Record<GettersKey, IGettersValue<State>>
+export type IGetters<State, GettersKey extends string> = Record<GettersKey, IGettersValue<State>>;
 
-export interface IContext<State, MutationKeys, GettersKey extends string> {
-  dispatch: IDispatch<MutationKeys>;
+export interface IContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
+  dispatch: IDispatch<MutationsKey, ActionsKey>;
   state: IState<State>;
-  getters: IGetters<State, GettersKey>
+  getters: IGetters<State, GettersKey>;
 }

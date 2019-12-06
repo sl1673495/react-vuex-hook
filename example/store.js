@@ -19,6 +19,7 @@ export const { connect, useStore } = initStore({
   actions: {
     async asyncAdd({ dispatch, state, getters }, payload) {
       await wait(1000);
+      state.
       dispatch({ type: "add" });
       // 返回的值会被包裹的promise resolve
       return true;
