@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { Spin, Button, Card } from 'antd'
-import { connect, useStore } from './store.js'
+import { connect, useStore } from './store'
 import './index.css'
 import 'antd/dist/antd.css'
 
-const { Meta } = Card
 function Count() {
   const { state, getters, dispatch } = useStore()
   const { countPlusOne } = getters

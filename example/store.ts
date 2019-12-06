@@ -1,7 +1,7 @@
 // store.js
 import initStore from "../src";
 
-const wait = time => new Promise(resolve => setTimeout(resolve, time));
+const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 export const { connect, useStore } = initStore({
   // 初始状态
@@ -19,7 +19,6 @@ export const { connect, useStore } = initStore({
   actions: {
     async asyncAdd({ dispatch, state, getters }, payload) {
       await wait(1000);
-      state.
       dispatch({ type: "add" });
       // 返回的值会被包裹的promise resolve
       return true;
