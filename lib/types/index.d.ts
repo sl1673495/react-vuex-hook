@@ -1,52 +1,49 @@
 import * as React from 'react';
-export interface IMutationsOption<State> {
-    [key: string]: (state: State, payload: any) => State;
+export interface IMutationsValue<State> {
+    (state: State, payload: any): State;
 }
 export interface IGettersOption<State> {
-    [key: string]: (state: State) => any;
+    [key: string]: IGettersValue<State>;
 }
-export declare type IState<State> = State & {
-    loadingMap: ILoadingMap;
+export interface IGettersValue<State> {
+    (state: State): any;
+}
+export declare type IState<State, ActionsKey extends string> = State & {
+    loadingMap: ILoadingMap<ActionsKey>;
 };
-export declare type ILoadingMap = {
-    [key: string]: boolean;
-} & {
-    any: (keys: string | string[]) => boolean;
+export declare type ILoadingMap<ActionsKey extends string> = Record<ActionsKey, boolean> & {
+    any: (keys: ActionsKey | ActionsKey[]) => boolean;
 };
-interface IActionContext<State, GettersOption> {
+interface IActionContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
     state: State;
-    getters: IGetters<GettersOption>;
-    dispatch: IDispatch;
+    getters: Record<GettersKey, IGettersValue<State>>;
+    dispatch: IDispatch<MutationsKey, ActionsKey>;
 }
-export interface IActionsOption<State, GettersOption> {
-    [key: string]: (context: IActionContext<State, GettersOption>, payload: any) => Promise<any>;
-}
-export interface IOptions<State> {
+export declare type IActionsOption<State, MutationsKey extends string, GettersKey extends string, ActionsKey extends string> = Record<ActionsKey, (context: IActionContext<State, MutationsKey, GettersKey, ActionsKey>, payload: any) => Promise<any>>;
+export interface IOptions<State, MutationsKey extends string, GettersKey extends string, ActionsKey extends string> {
     initState: State;
-    mutations: IMutationsOption<State>;
-    getters: IGettersOption<State>;
-    actions: IActionsOption<State, IGettersOption<State>>;
+    mutations: Record<MutationsKey, IMutationsValue<State>>;
+    getters: IGetters<State, GettersKey>;
+    actions: IActionsOption<State, MutationsKey, GettersKey, ActionsKey>;
 }
 export interface IConnect {
-    (Component: React.FC): React.FC;
+    (Component: React.ComponentType<any>): React.FC;
 }
-export interface ICreated<State> {
-    connect: IConnect;
-    useStore: () => IContext<IState<State>>;
-}
-export interface IDispatchArgs {
-    type: string;
+export interface IDispatchArgs<MutationsKey> {
+    type: MutationsKey;
     payload?: any;
 }
-export declare type IDispatch = React.Dispatch<IDispatchArgs> & {
-    action: (args: IDispatchArgs) => Promise<any>;
+export interface IDispatchActionArgs<ActionsKey> {
+    type: ActionsKey;
+    payload?: any;
+}
+export declare type IDispatch<MutationsKey, ActionsKey> = React.Dispatch<IDispatchArgs<MutationsKey>> & {
+    action: (args: IDispatchActionArgs<ActionsKey>) => Promise<any>;
 };
-export declare type IGetters<GettersOption> = {
-    [K in keyof GettersOption]: any;
-};
-export interface IContext<State> {
-    dispatch: IDispatch;
-    state: IState<State>;
-    getters: IGetters<IGettersOption<State>>;
+export declare type IGetters<State, GettersKey extends string> = Record<GettersKey, IGettersValue<State>>;
+export interface IContext<State, MutationsKey, GettersKey extends string, ActionsKey extends string> {
+    dispatch: IDispatch<MutationsKey, ActionsKey>;
+    state: IState<State, ActionsKey>;
+    getters: IGetters<State, GettersKey>;
 }
 export {};
