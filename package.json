@@ -10,7 +10,8 @@
     "doc:dev": "father doc dev",
     "doc:build": "father doc build",
     "doc:deploy": "father doc deploy",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "release": "npm version patch && npm run test && npm run build && npm run publish"
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.0",
