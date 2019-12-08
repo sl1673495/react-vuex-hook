@@ -4,6 +4,15 @@
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "keywords": [
+    "react",
+    "reducer",
+    "state",
+    "store",
+    "useReducer",
+    "hook",
+    "typescript"
+  ],
   "scripts": {
     "test": "jest",
     "build": "father build",
@@ -38,7 +47,6 @@
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC"
 }
