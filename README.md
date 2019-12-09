@@ -1,11 +1,11 @@
-# react-vuex
-react-vuex是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
+# react-vuex-hook
+react-vuex-hook是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
 
-react-vuex is a React Hook state manager realized by Context and useReducer, use like vuex.
+react-vuex-hook is a React Hook state manager realized by Context and useReducer, use like vuex.
 
 ## 安装
 ```
-npm install react-vuex -S
+npm install react-vuex-hook -S
 ```
 
 ## 稳定性
@@ -20,7 +20,7 @@ npm install react-vuex -S
 
 ## 文档
 
-https://sl1673495.github.io/react-vuex/
+https://sl1673495.github.io/react-vuex-hook/
 
 ## 更新 3.0
 
@@ -66,7 +66,7 @@ https://sl1673495.github.io/react-vuex/
 
 ```javascript
 // store.js
-import initStore from 'react-vuex'
+import initStore from 'react-vuex-hook'
 
 export const { connect, useStore } = initStore({
   // 初始状态

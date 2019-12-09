@@ -1,6 +1,6 @@
 {
-  "name": "react-vuex",
-  "version": "3.1.4",
+  "name": "react-vuex-hook",
+  "version": "4.0.0",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
