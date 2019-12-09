@@ -1,8 +1,8 @@
 {
-  "vendors.css": "/reax-hook/static/css/vendors.59aaad4af1e9136aa0d5.css",
-  "vendors.js": "/reax-hook/static/js/vendors.e4f1b7f3.js",
-  "app.js": "/reax-hook/static/js/app.59aaad4af1e9136aa0d5.js",
-  "src-index.css": "/reax-hook/static/css/src-index.59aaad4af1e9136aa0d5.css",
-  "src-index.js": "/reax-hook/static/js/src-index.f45e58e2.js",
-  "index.html": "/reax-hook/index.html"
+  "vendors.css": "/react-vuex-hook/static/css/vendors.959c36f7cc3a95832a27.css",
+  "vendors.js": "/react-vuex-hook/static/js/vendors.a10e99fc.js",
+  "app.js": "/react-vuex-hook/static/js/app.959c36f7cc3a95832a27.js",
+  "src-index.css": "/react-vuex-hook/static/css/src-index.959c36f7cc3a95832a27.css",
+  "src-index.js": "/react-vuex-hook/static/js/src-index.15ab4a07.js",
+  "index.html": "/react-vuex-hook/index.html"
 }
