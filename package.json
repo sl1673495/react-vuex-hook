@@ -11,6 +11,8 @@
     "store",
     "useReducer",
     "hook",
+    "react-vuex",
+    "vuex",
     "typescript"
   ],
   "scripts": {
