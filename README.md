@@ -9,7 +9,7 @@ npm install react-vuex-hook -S
 ```
 
 ## 稳定性
-[![Build Status](https://travis-ci.org/sl1673495/reax-hook.svg?branch=master)](https://travis-ci.org/sl1673495/reax-hook) 
+[![Build Status](https://travis-ci.org/sl1673495/react-vuex-hook.svg?branch=master)](https://travis-ci.org/sl1673495/react-vuex-hook)
 [![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
 
 
