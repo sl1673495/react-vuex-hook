@@ -3,64 +3,16 @@ react-vuex-hook是利用React Hook配合Context和useReducer封装的一个用�
 
 react-vuex-hook is a React Hook state manager realized by Context and useReducer, use like vuex.
 
+## 稳定性
+[![Build Status](https://travis-ci.org/sl1673495/react-vuex-hook.svg?branch=master)](https://travis-ci.org/sl1673495/react-vuex-hook)
+[![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
+
 ## 安装
 ```
 npm install react-vuex-hook -S
 ```
 
-## 稳定性
-[![Build Status](https://travis-ci.org/sl1673495/react-vuex-hook.svg?branch=master)](https://travis-ci.org/sl1673495/react-vuex-hook)
-[![Coverage Status](https://coveralls.io/repos/github/sl1673495/reax-hook/badge.svg?branch=master)](https://coveralls.io/github/sl1673495/reax-hook?branch=master)
-
-
-## 为什么用它
-1. 带给你Vuex类似的语法。
-2. 完善的TypeScript类型推导。
-3. 测试覆盖率100%
-
-## 文档
-
-https://sl1673495.github.io/react-vuex-hook/
-
-## 更新 3.0
-
-1. 全面使用TypeScript重构
-
-2. 脚手架工具使用umi团队的`father`
-
-3. 基于docz的文档
-
-## 更新 2.0
-
-1. 新增测试用例，测试覆盖率达到100%
-
-2. `mutation` 的函数参数顺序和 Vuex 保持一致
-
-```js
-  mutations: {
-    // 浅拷贝state
-    add(state, payload) {
-      return Object.assign({}, state, { count: state.count + 1 })
-    },
-  },
-```
-
-3. `actions` 的函数参数和vuex保持一致
-```js
-  actions: {
-    async asyncAdd({ dispatch, state, getters }, payload) {
-      await wait(100)
-      dispatch({ type: 'add' })
-      // 返回的值会被包裹的promise resolve
-      return true
-    },
-  },
-```
-
-### 适用场景
-
-比较适用于单个比较复杂的小模块，个人认为这也是 react 官方推荐 useReducer 和 context 配合使用的场景。
-由于所有使用了 useContext 的组件都会在 state 发生变化的时候进行更新(context 的弊端)，推荐渲染复杂场景的时候配合 useMemo 来做性能优化。
+## 使用
 
 ### 编写 store
 
@@ -147,4 +99,54 @@ function Count() {
 
 // 必须用connect包裹 内部会保证Context的Provider在包裹Count的外层
 export default connect(Count)
+```
+
+### 适用场景
+
+比较适用于单个比较复杂的小模块，个人认为这也是 react 官方推荐 useReducer 和 context 配合使用的场景。
+由于所有使用了 useContext 的组件都会在 state 发生变化的时候进行更新(context 的弊端)，推荐渲染复杂场景的时候配合 useMemo 来做性能优化。
+
+
+## 为什么用它
+1. 带给你Vuex类似的语法。
+2. 完善的TypeScript类型推导。
+3. 测试覆盖率100%
+
+## 文档
+
+https://sl1673495.github.io/react-vuex-hook/
+
+## 更新 3.0
+
+1. 全面使用TypeScript重构
+
+2. 脚手架工具使用umi团队的`father`
+
+3. 基于docz的文档
+
+## 更新 2.0
+
+1. 新增测试用例，测试覆盖率达到100%
+
+2. `mutation` 的函数参数顺序和 Vuex 保持一致
+
+```js
+  mutations: {
+    // 浅拷贝state
+    add(state, payload) {
+      return Object.assign({}, state, { count: state.count + 1 })
+    },
+  },
+```
+
+3. `actions` 的函数参数和vuex保持一致
+```js
+  actions: {
+    async asyncAdd({ dispatch, state, getters }, payload) {
+      await wait(100)
+      dispatch({ type: 'add' })
+      // 返回的值会被包裹的promise resolve
+      return true
+    },
+  },
 ```
