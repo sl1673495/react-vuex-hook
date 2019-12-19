@@ -6,9 +6,9 @@ import initStore from '../src';
 const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 const { connect, useStore } = initStore({
-  initState: {
+  getInitState: () => ({
     count: 1,
-  },
+  }),
   mutations: {
     // 浅拷贝state
     add(state, payload) {
@@ -85,6 +85,7 @@ describe('正常使用', () => {
   test('异步actions派发前后，对应的loading状态表现正常，并且测试any的两种参数格式', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useStore(), { wrapper: Connected });
     const { dispatch } = result.current;
+    expect(result.current.state.loadingMap.any(['asyncAdd'])).toBeFalsy();
     await act(async () => {
       dispatch.action({
         type: 'asyncAdd',

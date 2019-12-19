@@ -22,13 +22,12 @@ export default function initStore<
   ActionsKey extends string
 >(options?: IOptions<State, MutationsKey, GettersKey, ActionsKey>) {
   const {
-    initState = {} as State,
+    getInitState = () => undefined,
     mutations = {} as Record<MutationsKey, IMutationsValue<State>>,
     actions: rawActions = {},
     getters: rawGetters = {} as IGetters<State, GettersKey>,
   } = options || {};
 
-  const stateWithLoadingMap = mixinState<State, ActionsKey>(initState);
   mixinMutations(mutations);
 
   const reducer = (state: State, action: IDispatchArgs<MutationsKey>) => {
@@ -41,10 +40,12 @@ export default function initStore<
     }
     return mutation(state, payload);
   };
-  const Context = React.createContext<IContext<IState<State, ActionsKey>, MutationsKey, GettersKey, ActionsKey>>(null);
+  const Context = React.createContext<
+    IContext<IState<State, ActionsKey>, MutationsKey, GettersKey, ActionsKey>
+  >(null);
   const Provider = (props: any) => {
     const { children } = props;
-    const [state, dispatch] = useReducer(reducer, stateWithLoadingMap);
+    const [state, dispatch] = useReducer(reducer, undefined, getInitState);
     // 计算一把computed
     const computedGetters = useMemo(() => initGetter<State, GettersKey>(rawGetters, state), [
       state,
@@ -63,11 +64,11 @@ export default function initStore<
     // 重命名state 用于强制推断类型
     const reducerState: IState<State, ActionsKey> = state as any;
     // 给loadingMap加上一些api
-    enhanceLoadingMap<ActionsKey>(reducerState.loadingMap);
+    const enhancedState = enhanceLoadingMap<State, ActionsKey>(reducerState);
     return (
       <Context.Provider
         value={{
-          state: reducerState,
+          state: enhancedState,
           dispatch: withDispatchAction,
           getters: computedGetters,
         }}
@@ -97,15 +98,7 @@ export default function initStore<
   return { connect, useStore };
 }
 
-// 加入loadingMap
-// 通过action的key可以读取到action是否正在执行
-function mixinState<State, ActionsKey extends string>(state: State): IState<State, ActionsKey> {
-  const loadingMap = Object.create(null);
-  return Object.assign(state, { loadingMap });
-}
-
 const CHANGE_LOADING = '@@changeLoadingState';
-
 // 加入改变loading状态的方法
 function mixinMutations(mutations) {
   return Object.assign(mutations, {
@@ -128,7 +121,7 @@ function mixinMutations(mutations) {
 function initGetter<State, GettersKey extends string>(
   rawGetters: IGetters<State, GettersKey>,
   state: State,
-){
+) {
   const getters = {} as IGetters<State, GettersKey>;
   const rawGetterKeys = Object.keys(rawGetters);
   rawGetterKeys.forEach(rawGetterKey => {
@@ -176,11 +169,20 @@ function initDispatchAction(dispatch, actions, state, getters) {
     });
 }
 
-function enhanceLoadingMap<ActionsKey extends string>(loadingMap: ILoadingMap<ActionsKey>) {
-  loadingMap.any = keys => {
-    keys = Array.isArray(keys) ? keys : [keys];
-    return keys.some(key => !!loadingMap[key]);
-  };
+function enhanceLoadingMap<State, ActionsKey extends string>(
+  state: IState<State, ActionsKey>,
+): IState<State, ActionsKey> {
+  if (state) {
+    if (!state.loadingMap) {
+      state.loadingMap = {} as any
+    }
+    const { loadingMap } = state;
+    loadingMap.any = keys => {
+      keys = Array.isArray(keys) ? keys : [keys];
+      return keys.some(key => !!loadingMap[key]);
+    };
+    return state;
+  }
 }
 
 function typeError(type) {

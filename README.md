@@ -22,33 +22,34 @@ import initStore from 'react-vuex-hook'
 
 export const { connect, useStore } = initStore({
   // 初始状态
-  initState: {
-    count: 0,
-  },
+  getInitState: () => ({
+    count: 0
+  }),
   // 同步操作 必须返回state的拷贝值
   mutations: {
     // 浅拷贝state
     add(state, payload) {
-      return Object.assign({}, state, { count: state.count + 1 })
-    },
+      return Object.assign({}, state, { count: state.count + 1 });
+    }
   },
   // 异步操作，拥有dispatch的执行权
   actions: {
     async asyncAdd({ dispatch, state, getters }, payload) {
-      await wait(1000)
-      dispatch({ type: 'add' })
+      await wait(1000);
+      dispatch({ type: "add" });
       // 返回的值会被包裹的promise resolve
-      return true
-    },
+      return true;
+    }
   },
   // 计算属性 根据state里的值动态计算
   // 在页面中根据state值的变化而动态变化
   getters: {
     countPlusOne(state) {
-      return state.count + 1
-    },
-  },
-})
+      return state.count + 1;
+    }
+  }
+});
+
 
 
 // 注意这里不要提前声明好配置对象然后传递给initStore
@@ -115,6 +116,9 @@ export default connect(Count)
 ## 文档
 
 https://sl1673495.github.io/react-vuex-hook/
+
+## 更新 5.0
+1. 为了避免state复杂嵌套数据的污染，initState初始化的传入值由initState改为getInitState方法
 
 ## 更新 3.0
 

@@ -46,7 +46,7 @@ export interface IOptions<
   GettersKey extends string,
   ActionsKey extends string
 > {
-  initState: State;
+  getInitState: () => State;
   mutations: Record<MutationsKey, IMutationsValue<State>>;
   getters: IGetters<State, GettersKey>;
   actions: IActionsOption<State, MutationsKey, GettersKey, ActionsKey>;

@@ -5,9 +5,9 @@ const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
 export const { connect, useStore } = initStore({
   // 初始状态
-  initState: {
+  getInitState: () => ({
     count: 0
-  },
+  }),
   // 同步操作 必须返回state的拷贝值
   mutations: {
     // 浅拷贝state
