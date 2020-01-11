@@ -1,8 +1,10 @@
 {
-  "vendors.css": "/react-vuex-hook/static/css/vendors.959c36f7cc3a95832a27.css",
-  "vendors.js": "/react-vuex-hook/static/js/vendors.a10e99fc.js",
-  "app.js": "/react-vuex-hook/static/js/app.959c36f7cc3a95832a27.js",
-  "src-index.css": "/react-vuex-hook/static/css/src-index.959c36f7cc3a95832a27.css",
-  "src-index.js": "/react-vuex-hook/static/js/src-index.15ab4a07.js",
+  "vendors.css": "/react-vuex-hook/static/css/vendors.8c852691c15934bea2f5.css",
+  "vendors.js": "/react-vuex-hook/static/js/vendors.3dba3285.js",
+  "app.js": "/react-vuex-hook/static/js/app.8c852691c15934bea2f5.js",
+  "example-example.css": "/react-vuex-hook/static/css/example-example.8c852691c15934bea2f5.css",
+  "example-example.js": "/react-vuex-hook/static/js/example-example.35eb3e9d.js",
+  "example-index.css": "/react-vuex-hook/static/css/example-index.8c852691c15934bea2f5.css",
+  "example-index.js": "/react-vuex-hook/static/js/example-index.2458096f.js",
   "index.html": "/react-vuex-hook/index.html"
 }

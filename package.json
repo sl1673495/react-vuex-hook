@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "father build",
+    "build": "father build & father doc build",
     "doc:dev": "father doc dev",
     "doc:build": "father doc build",
     "doc:deploy": "father doc deploy",
