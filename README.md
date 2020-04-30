@@ -1,7 +1,7 @@
 # react-vuex-hook
 react-vuex-hook是利用React Hook配合Context和useReducer封装的一个用于小型模块的状态管理库，提供类似vuex的语法。
 
-react-vuex-hook is a React Hook state manager realized by Context and useReducer, use like vuex.
+react-vuex-hook is a state management library for small modules using React Hook with Context and useReducer, providing vuex-like syntax.
 
 ## 稳定性
 [![Build Status](https://travis-ci.org/sl1673495/react-vuex-hook.svg?branch=master)](https://travis-ci.org/sl1673495/react-vuex-hook)
