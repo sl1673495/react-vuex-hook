@@ -32,7 +32,6 @@ function Chat() {
     state: { message },
     dispatch,
   } = useStore();
-  const [value, setValue] = useState('');
 
   addLogHack('聊天室组件重新渲染💐');
 

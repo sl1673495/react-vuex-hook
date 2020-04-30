@@ -1,19 +1,19 @@
-import React from 'react';
-import hoistStatics from 'hoist-non-react-statics';
-import propTypes from 'prop-types';
+import React from "react"
+import hoistStatics from "hoist-non-react-statics"
+import propTypes from "prop-types"
 import {
   IState,
   IGetters,
-  ILoadingMap,
+  IGettersResult,
   IOptions,
   IConnect,
   IDispatchArgs,
   IDispatch,
   IContext,
   IMutationsValue,
-} from './types';
+} from "./types"
 
-const { useReducer, useContext, useMemo } = React;
+const { useReducer, useContext, useMemo } = React
 // reax: 创建一个小型的store
 export default function initStore<
   State extends {},
@@ -26,45 +26,49 @@ export default function initStore<
     mutations = {} as Record<MutationsKey, IMutationsValue<State>>,
     actions: rawActions = {},
     getters: rawGetters = {} as IGetters<State, GettersKey>,
-  } = options || {};
+  } = options || {}
 
-  mixinMutations(mutations);
+  mixinMutations(mutations)
 
   const reducer = (state: State, action: IDispatchArgs<MutationsKey>) => {
-    const { type, payload } = action;
-    const mutation = mutations[type];
+    const { type, payload } = action
+    const mutation = mutations[type]
     // 用于开发环境时提示拼写错误，可以不计入测试覆盖率
     /* istanbul ignore if */
-    if (typeof mutation !== 'function') {
-      typeError(type);
+    if (typeof mutation !== "function") {
+      typeError(type)
     }
-    return mutation(state, payload);
-  };
+    return mutation(state, payload)
+  }
   const Context = React.createContext<
     IContext<IState<State, ActionsKey>, MutationsKey, GettersKey, ActionsKey>
-  >(null);
+  >(null)
   const Provider = (props: any) => {
-    const { children } = props;
-    const [state, dispatch] = useReducer(reducer, undefined, getInitState);
+    const { children } = props
+    const [state, dispatch] = useReducer(reducer, undefined, getInitState)
     // 计算一把computed
-    const computedGetters = useMemo(() => initGetter<State, GettersKey>(rawGetters, state), [
-      state,
-    ]);
+    const computedGetters = useMemo(
+      () => initGetter<State, GettersKey>(rawGetters, state),
+      [state],
+    )
     // 让actions执行前后改变loading
-    const actions = useMemo(() => initActions(rawActions, dispatch), []);
+    const actions = useMemo(() => initActions(rawActions, dispatch), [])
     const dispatchAction = useMemo(
       () => initDispatchAction(dispatch, actions, state, computedGetters),
       [actions, computedGetters, state],
-    );
+    )
     // dispatchAction没法做到引用保持不变 所以挂到dispatch上
     // 这样用户使用useEffect把dispatch作为依赖 就不会造成无限更新
-    const withDispatchAction: IDispatch<MutationsKey, ActionsKey> = dispatch as any;
-    withDispatchAction.action = dispatchAction;
+    const withDispatchAction: IDispatch<
+      MutationsKey,
+      ActionsKey
+    > = dispatch as any
+    withDispatchAction.action = dispatchAction
 
     // 重命名state 用于强制推断类型
-    const reducerState: IState<State, ActionsKey> = state as any;
+    const reducerState: IState<State, ActionsKey> = state as any
     // 给loadingMap加上一些api
-    const enhancedState = enhanceLoadingMap<State, ActionsKey>(reducerState);
+    const enhancedState = enhanceLoadingMap<State, ActionsKey>(reducerState)
     return (
       <Context.Provider
         value={{
@@ -75,46 +79,46 @@ export default function initStore<
       >
         {children}
       </Context.Provider>
-    );
-  };
+    )
+  }
 
   Provider.propTypes = {
     children: propTypes.element.isRequired,
-  };
+  }
 
-  const connect: IConnect = Component => {
+  const connect = <P extends {}>(Component: React.ComponentType<P>) => {
     const WrapWithProvider = (props: any) => (
       <Provider>
         <Component {...props} />
       </Provider>
-    );
+    )
 
     // 加上displayName
     // 拷贝静态属性
-    return argumentContainer(WrapWithProvider, Component);
-  };
+    return argumentContainer(WrapWithProvider, Component) as React.FC<P>
+  } 
 
-  const useStore = () => useContext(Context);
-  return { connect, useStore };
+  const useStore = () => useContext(Context)
+  return { connect, useStore }
 }
 
-const CHANGE_LOADING = '@@changeLoadingState';
+const CHANGE_LOADING = "@@changeLoadingState"
 // 加入改变loading状态的方法
 function mixinMutations(mutations) {
   return Object.assign(mutations, {
     [CHANGE_LOADING](state, payload) {
-      const { actionKey, isLoading } = payload;
-      const { loadingMap } = state;
+      const { actionKey, isLoading } = payload
+      const { loadingMap } = state
       const newLoadingMap = {
         ...loadingMap,
         [actionKey]: isLoading,
-      };
+      }
       return {
         ...state,
         loadingMap: newLoadingMap,
-      };
+      }
     },
-  });
+  })
 }
 
 // 通过最新的state把getter计算出来
@@ -122,14 +126,14 @@ function initGetter<State, GettersKey extends string>(
   rawGetters: IGetters<State, GettersKey>,
   state: State,
 ) {
-  const getters = {} as IGetters<State, GettersKey>;
-  const rawGetterKeys = Object.keys(rawGetters);
-  rawGetterKeys.forEach(rawGetterKey => {
-    const rawGetter = rawGetters[rawGetterKey];
-    const result = rawGetter(state);
-    getters[rawGetterKey] = result;
-  });
-  return getters;
+  const getters = {} as IGettersResult<GettersKey>
+  const rawGetterKeys = Object.keys(rawGetters)
+  rawGetterKeys.forEach((rawGetterKey) => {
+    const rawGetter = rawGetters[rawGetterKey]
+    const result = rawGetter(state)
+    getters[rawGetterKey] = result
+  })
+  return getters
 }
 
 // 劫持原有的action方法 在action执行前后更改loading状态
@@ -141,19 +145,19 @@ function initActions(rawActions, dispatch) {
         isLoading,
         actionKey,
       },
-    });
-  const actions = {};
-  const rawActionKeys = Object.keys(rawActions);
-  rawActionKeys.forEach(rawActionKey => {
+    })
+  const actions = {}
+  const rawActionKeys = Object.keys(rawActions)
+  rawActionKeys.forEach((rawActionKey) => {
     actions[rawActionKey] = async (...actionArgs) => {
-      changeLoading(rawActionKey, true);
-      const result = await rawActions[rawActionKey](...actionArgs);
-      changeLoading(rawActionKey, false);
-      return result;
-    };
-  });
+      changeLoading(rawActionKey, true)
+      const result = await rawActions[rawActionKey](...actionArgs)
+      changeLoading(rawActionKey, false)
+      return result
+    }
+  })
 
-  return actions;
+  return actions
 }
 
 // dispatch actions里的方法
@@ -161,12 +165,12 @@ function initActions(rawActions, dispatch) {
 function initDispatchAction(dispatch, actions, state, getters) {
   return ({ type, payload }) =>
     new Promise((resolve, reject) => {
-      if (typeof actions[type] === 'function') {
-        actions[type]({ dispatch, state, getters }, payload).then(resolve);
+      if (typeof actions[type] === "function") {
+        actions[type]({ dispatch, state, getters }, payload).then(resolve)
       } else {
-        typeError(type);
+        typeError(type)
       }
-    });
+    })
 }
 
 function enhanceLoadingMap<State, ActionsKey extends string>(
@@ -176,27 +180,32 @@ function enhanceLoadingMap<State, ActionsKey extends string>(
     if (!state.loadingMap) {
       state.loadingMap = {} as any
     }
-    const { loadingMap } = state;
-    loadingMap.any = keys => {
-      keys = Array.isArray(keys) ? keys : [keys];
-      return keys.some(key => !!loadingMap[key]);
-    };
-    return state;
+    const { loadingMap } = state
+    loadingMap.any = (keys) => {
+      keys = Array.isArray(keys) ? keys : [keys]
+      return keys.some((key) => !!loadingMap[key])
+    }
+    return state
   }
 }
 
-function typeError(type) {
-  throw new Error(`error action type:${type}`);
+function typeError(type: string) {
+  throw new Error(`error action type:${type}`)
 }
 
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent';
+function getDisplayName(WrappedComponent: React.ComponentType) {
+  return (
+    WrappedComponent.displayName || WrappedComponent.name || "WrappedComponent"
+  )
 }
 
-function argumentContainer(Container, WrappedComponent) {
+function argumentContainer(
+  Container: React.ComponentType & { WrappedComponent?: React.ComponentType },
+  WrappedComponent: React.ComponentType,
+) {
   // 给组件增加displayName
-  Container.displayName = `Store(${getDisplayName(WrappedComponent)})`;
+  Container.displayName = `Store(${getDisplayName(WrappedComponent)})`
   // 增加被包裹组件的引用
-  Container.WrappedComponent = WrappedComponent;
-  return hoistStatics(Container, WrappedComponent);
+  Container.WrappedComponent = WrappedComponent
+  return hoistStatics(Container, WrappedComponent)
 }

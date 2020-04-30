@@ -31,7 +31,7 @@ const { connect, useStore } = initStore({
   },
 })
 
-function Comp({ children }) {
+function Comp({ children = null }) {
   const { state, getters, dispatch } = useStore()
   const onAdd = () => dispatch({ type: "add" })
   const onErrorType = () => dispatch({ type: "ERROR_TYPE" } as any)
