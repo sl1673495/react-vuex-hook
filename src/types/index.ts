@@ -26,7 +26,7 @@ interface IActionContext<
   ActionsKey extends string
 > {
   state: State
-  getters: Record<GettersKey, IGettersValue<State>>
+  getters: IGettersResult<GettersKey>
   dispatch: IDispatch<MutationsKey, ActionsKey>
 }
 

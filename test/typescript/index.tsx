@@ -26,8 +26,8 @@ const { connect, useStore } = initStore({
   },
   actions: {
     async asyncAdd({ dispatch, state, getters }) {
-      state.count
-      getters.countPlusOne
+      state.count + 1
+      getters.countPlusOne + 1
       dispatch({ type: "add" })
       // 返回的值会被包裹的promise resolve
       return true
