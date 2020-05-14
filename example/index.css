@@ -45,7 +45,16 @@
 }
 
 .card {
+  width: 300px;
   margin-bottom: 36px;
+}
+
+.chunk {
+  margin-bottom: 12px;
+}
+
+.btn {
+  margin-right: 8px;
 }
 
 .log {

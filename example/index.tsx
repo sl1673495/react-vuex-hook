@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react'
-import { Spin, Button, Card } from 'antd'
-import { connect, useStore } from './store'
+import React, {useMemo} from 'react'
+import {Spin, Button, Card} from 'antd'
+import {connect, useStore} from './store'
 import './index.css'
 import 'antd/dist/antd.css'
 
 function Count() {
-  const { state, getters, dispatch } = useStore()
-  const { countPlusOne } = getters
-  const { loadingMap, count } = state
+  const {state, getters, dispatch} = useStore()
+  const {countPlusOne} = getters
+  const {loadingMap, count} = state
   // loadingMap是内部提供的变量 会监听异步action的起始和结束
   // 便于页面显示loading状态
   // 需要传入对应action的key值
@@ -15,21 +15,24 @@ function Count() {
   // 灵感来源于dva
   const loading = loadingMap.any(['asyncAdd'])
   // 同步的add
-  const add = () => dispatch({ type: 'add' })
+  const add = () => dispatch({type: 'add'})
 
   // 异步的add
-  const asyncAdd = () => dispatch.action({ type: 'asyncAdd' })
+  const asyncAdd = () => dispatch.action({type: 'asyncAdd'})
   return (
     <section className="wrap">
-      <Card
-        hoverable
-        style={{ width: 240 }}
-      >
+      <Card hoverable style={{width: 320}}>
         <Spin spinning={loading}>
           <div className="chunk">
-            <div className="chunk">store中的count现在是 {count}</div>
-            <Button onClick={add}>add</Button>
-            <Button onClick={asyncAdd}>async add</Button>
+            <span className="chunk">store中的count现在是 {count}</span>
+          </div>
+          <div className="chunk flex-center">
+            <Button className="btn" onClick={add}>
+              add
+            </Button>
+            <Button className="btn" onClick={asyncAdd}>
+              async add
+            </Button>
           </div>
           <div className="chunk">
             <span>通过getters计算出来的countPlusOne是 {countPlusOne}</span>
@@ -42,7 +45,7 @@ function Count() {
                 <span>只有count变化会重新渲染 {count}</span>
               </div>
             ),
-            [count]
+            [count],
           )}
         </Spin>
       </Card>
